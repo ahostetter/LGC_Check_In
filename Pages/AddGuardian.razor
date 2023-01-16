@@ -1,0 +1,30 @@
+﻿@page "/guardian/add"
+@page "/guardian/edit/{PhoneNumber:int}"
+<PageTitle></PageTitle>
+
+<h3>Phone Number Entry</h3>
+<a href="#" class="btn btn-outline-dark">Submit</a>
+<div class="row">
+    <div class="col-md-6">
+        <EditForm Model="@guardian" OnValidSubmit="Save">
+            <DataAnnotationsValidator/>
+            <div class="form-group">
+                <label for="PhoneNumber">PhoneNumber</label>
+                <InputNumber class="form-control" @bind-Value=guardian.PhoneNumber/>
+                <ValidationMessage For="@(()=>guardian.PhoneNumber)"/>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int PhoneNumber { get; set; }
+    private string message = string.Empty;
+    Models.Guardian guardian = new();
+
+    private void Save()
+    {
+        
+    }
+}
