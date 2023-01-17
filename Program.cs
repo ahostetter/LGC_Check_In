@@ -1,4 +1,5 @@
 using LGC_Check_In.Data;
+using LGC_Check_In.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace LGC_Check_In
             builder.Services.AddServerSideBlazor();
             builder.Services.AddDbContextFactory<DatabaseContext>(opt =>
                 opt.UseSqlite($"Data Source={nameof(DatabaseContext.Guardians)}.db"));
+            builder.Services.AddTransient<IGuardianService, GuardianService>();
 
             var app = builder.Build();
 

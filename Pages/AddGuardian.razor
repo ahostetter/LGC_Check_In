@@ -1,17 +1,32 @@
 ﻿@page "/guardian/add"
-@page "/guardian/edit/{PhoneNumber:int}"
-<PageTitle></PageTitle>
+@using Services;
+@inject IGuardianService guardianService;
+<PageTitle>@Title</PageTitle>
 
-<h3>Phone Number Entry</h3>
-<a href="#" class="btn btn-outline-dark">Submit</a>
+<h3>@Title</h3>
+
 <div class="row">
     <div class="col-md-6">
         <EditForm Model="@guardian" OnValidSubmit="Save">
             <DataAnnotationsValidator/>
             <div class="form-group">
                 <label for="PhoneNumber">PhoneNumber</label>
-                <InputNumber class="form-control" @bind-Value=guardian.PhoneNumber/>
-                <ValidationMessage For="@(()=>guardian.PhoneNumber)"/>
+                <InputNumber class="form-control" @bind-Value="guardian.PhoneNumber" />
+                <ValidationMessage For="@(()=>guardian.PhoneNumber)" />
+            </div>
+            <div class="form-group">
+                <label for="FirstName">FirstName</label>
+                <InputNumber class="form-control" @bind-Value="guardian.FirstName" />
+                <ValidationMessage For="@(()=>guardian.FirstName)" />
+            </div>
+            <div class="form-group">
+                <label for="LastName">LastName</label>
+                <InputNumber class="form-control" @bind-Value="guardian.LastName" />
+                <ValidationMessage For="@(()=>guardian.LastName)" />
+            </div>
+
+            <div class="my-2">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </EditForm>
     </div>
@@ -19,12 +34,31 @@
 
 @code {
     [Parameter]
-    public int PhoneNumber { get; set; }
+    public int id { get; set; }
     private string message = string.Empty;
     Models.Guardian guardian = new();
+    private string Title = "Add Phone Number";
 
     private void Save()
     {
-        
+        message = "Wait...";
+        if (guardianService.AddUpdate(guardian))
+        {
+            message = "Sucessfully Added";
+        }
+        else
+        {
+            message = "Could not Save";
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (id > 0)
+        {
+            Title = "Update Phone Number";
+            guardian = guardianService.FindByID(id);
+        }
+        base.OnInitialized();
     }
 }

@@ -7,7 +7,8 @@ namespace LGC_Check_In.Models
         [Key]
         public int RecordID { get; set; }
         [Phone]
-        public int PhoneNumber { get; set; }
+        [Required]
+        public string? PhoneNumber { get; set; }
         [Required]
         public string? FirstName { get; set; }
         [Required]
